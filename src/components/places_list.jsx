@@ -4,7 +4,7 @@ export default function PlacesList({ places }) {
   return (
     <div className="places-list">
       {places.map((place) => (
-        <PlacesCard key={place.id} place={place} />
+        <PlacesCard key={place.place_id} place={place} />
       ))}
     </div>
   );

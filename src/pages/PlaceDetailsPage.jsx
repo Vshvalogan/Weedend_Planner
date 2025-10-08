@@ -1,31 +1,35 @@
 import { useParams, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 
-export default function PlaceDetailsPage({ savePlace }) {
+export default function PlaceDetailsPage({ places }) {
   const { id } = useParams();
-  const dummy = {
-    id: Number(id),
-    title: "Café Aroma",
-    address: "123 Orchard Road",
-    description: "A cozy café with great desserts",
-  };
+  const [place, setPlace] = useState(null);
 
-  const handleSaveClick = () => {
-    savePlace(dummy);
-  };
+  useEffect(() => {
+    const found = places.find((p) => p.place_id === id);
+    setPlace(found);
+  }, [id, places]);
+
+  if (!place) return <p>Loading...</p>;
 
   return (
     <div className="details-page page">
       <div className="panel">
-        <Link to="/places">Back</Link>
-        <h3>{dummy.title}</h3>
-        <p>Address: {dummy.address}</p>
-        <p>Description: {dummy.description}</p>
+        <Link to="/places">
+          <button>Back</button>
+        </Link>
+        <h3>{place.title}</h3>
 
-        <label>Note: <input placeholder="Add a note" /></label>
-        <label>Budget: <input placeholder="Add budget" /></label>
-        <button onClick={handleSaveClick}>Save Place</button>
+        {place.thumbnail && (
+          <img
+            src={place.thumbnail}
+            alt={place.title}
+            style={{ width: "200px", height: "200px", objectFit: "cover" }}
+          />
+        )}
 
-        <p>Links: <a href="#">Website</a> | <a href="#">Direction</a></p>
+        <p><strong>Address:</strong> {place.address}</p>
+        <p><strong>Description:</strong> {place.description || "No description available."}</p>
       </div>
     </div>
   );
