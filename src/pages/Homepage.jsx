@@ -5,46 +5,46 @@ import { index } from "../services/PlacesService";
 export default function Homepage({ setPlaces, setMapImage }) {
   const [city, setCity] = useState("");
   const [keyword, setKeyword] = useState("");
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  // const [searching, setSearching] = useState(false); 
   const navigate = useNavigate();
 
   const handleClick = async () => {
-    // clear old messages
     setError("");
-    setLoading(true);
-    setPlaces([]); // clear previous results
+    // setSearching(true);
+    setPlaces([]);
     setMapImage(null);
 
     try {
       if (!city || !keyword) {
         setError("Please enter both city and keyword");
-        setLoading(false);
+        // setSearching(false);
         return;
       }
 
       const data = await index(keyword, city);
+      
       if (!data) {
         setError("No data received from API.");
-        setLoading(false);
+        // setSearching(false);
         return;
       }
 
       const results = data.local_results || [];
       const mapImage = data.local_map ? data.local_map.image : null;
 
-      if (results.length === 0) {
-        setError("No places found. Try another search.");
-      } else {
+      if (results.length > 0) {
         setPlaces(results);
         setMapImage(mapImage);
         navigate("places");
+      } else {
+        setError("No places found. Try another search.");
       }
     } catch (err) {
       console.error("Search failed:", err);
       setError("Something went wrong. Please try again later.");
     } finally {
-      setLoading(false);
+      // setSearching(false); 
     }
   };
 
@@ -61,14 +61,16 @@ export default function Homepage({ setPlaces, setMapImage }) {
           <input value={keyword} onChange={(e) => setKeyword(e.target.value)} />
         </label>
 
-        <button type="button" onClick={handleClick} disabled={loading}>
-          {loading ? "Searching..." : "Search"}
-        </button>
+        <button type="button" onClick={handleClick}>Search</button>
 
-        {error && (
-          <p style={{ color: "red", marginTop: "10px" }}>
-            {error}
+        {/* {searching && (
+          <p style={{ color: "blue", marginTop: "10px" }}>
+            Searching for results...
           </p>
+        )} */}
+
+        {error  && (
+          <p style={{ color: "red", marginTop: "10px" }}>{error}</p>
         )}
 
         <Outlet />
