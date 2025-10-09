@@ -6,27 +6,23 @@ export default function Homepage({ setPlaces, setMapImage }) {
   const [city, setCity] = useState("");
   const [keyword, setKeyword] = useState("");
   const [error, setError] = useState("");
-  // const [searching, setSearching] = useState(false); 
   const navigate = useNavigate();
 
-  const handleClick = async () => {
+  const handleSearch = async () => {
     setError("");
-    // setSearching(true);
     setPlaces([]);
     setMapImage(null);
 
-    try {
-      if (!city || !keyword) {
-        setError("Please enter both city and keyword");
-        // setSearching(false);
-        return;
-      }
+    if (!city || !keyword) {
+      setError("Please enter both city and keyword");
+      return;
+    }
 
+    try {
       const data = await index(keyword, city);
-      
+
       if (!data) {
         setError("No data received from API.");
-        // setSearching(false);
         return;
       }
 
@@ -43,8 +39,6 @@ export default function Homepage({ setPlaces, setMapImage }) {
     } catch (err) {
       console.error("Search failed:", err);
       setError("Something went wrong. Please try again later.");
-    } finally {
-      // setSearching(false); 
     }
   };
 
@@ -54,25 +48,28 @@ export default function Homepage({ setPlaces, setMapImage }) {
         <h3>Weekend Plan Wizard</h3>
 
         <label>
-          City: <input value={city} onChange={(e) => setCity(e.target.value)} />
+          City:
+          <input
+            type="text"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+          />
         </label>
+
         <label>
-          Keyword:{" "}
-          <input value={keyword} onChange={(e) => setKeyword(e.target.value)} />
+          Keyword:
+          <input
+            type="text"
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
+          />
         </label>
 
-        <button type="button" onClick={handleClick}>Search</button>
+        <button onClick={handleSearch}>Search</button>
 
-        {/* {searching && (
-          <p style={{ color: "blue", marginTop: "10px" }}>
-            Searching for results...
-          </p>
-        )} */}
+        {error && <p style={{ color: "red", marginTop: "10px" }}>{error}</p>}
 
-        {error  && (
-          <p style={{ color: "red", marginTop: "10px" }}>{error}</p>
-        )}
-
+        {/* Nested routes (Places Page) render here */}
         <Outlet />
       </div>
     </div>
