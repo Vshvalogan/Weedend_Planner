@@ -1,14 +1,10 @@
-// src/services/SavedPlacesService.js
+
 const AIRTABLE_API_KEY = import.meta.env.VITE_AIRTABLE_API_KEY;
 const AIRTABLE_BASE_ID = import.meta.env.VITE_AIRTABLE_BASE_ID;
 const AIRTABLE_TABLE   = import.meta.env.VITE_AIRTABLE_TABLE;
-console.log("API KEY loaded?", import.meta.env.VITE_AIRTABLE_API_KEY);
+// console.log("API KEY loaded?", import.meta.env.VITE_AIRTABLE_API_KEY);
 
-function ensureEnv() {
-  if (!AIRTABLE_API_KEY || !AIRTABLE_BASE_ID || !AIRTABLE_TABLE) {
-    throw new Error("Airtable env vars missing. Check .env.local and restart dev server.");
-  }
-}
+//https://vite.dev/guide/env-and-mode.html
 
 const BASE_URL = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(AIRTABLE_TABLE)}`;
 const headers = {
@@ -17,18 +13,18 @@ const headers = {
 };
 
 export async function fetchSavedPlaces() {
-  ensureEnv();
+ 
   const res = await fetch(BASE_URL, { headers });
   if (!res.ok) {
     const text = await res.text();
     throw new Error(`GET failed ${res.status}: ${text}`);
   }
   const data = await res.json();
-  return data.records; // [{ id, fields: { Place, Notes, Budget, ID }, ... }]
+  return data.records;
 }
 
 export async function createSavedPlace({ Place, Notes, Budget ,Image, Rating, Address}) {
-  ensureEnv();
+
 
   const body = JSON.stringify({
     fields: {
@@ -47,11 +43,11 @@ export async function createSavedPlace({ Place, Notes, Budget ,Image, Rating, Ad
     throw new Error(`POST failed ${res.status}: ${text}`);
   }
   const data = await res.json();
-  return data; // { id: "rec...", fields: {...} }
+  return data; 
 }
 
 export async function deleteSavedPlace(recordId) {
-  ensureEnv();
+
   const url = `${BASE_URL}/${recordId}`;
   const res = await fetch(url, { method: "DELETE", headers: { Authorization: headers.Authorization } });
   if (!res.ok) {
@@ -59,5 +55,5 @@ export async function deleteSavedPlace(recordId) {
     throw new Error(`DELETE failed ${res.status}: ${text}`);
   }
   const data = await res.json();
-  return data; // { deleted: true, id: "rec..." }
+  return data; 
 }
