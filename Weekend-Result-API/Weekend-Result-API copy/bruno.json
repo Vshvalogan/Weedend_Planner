@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "Weekend-Result-API copy",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
