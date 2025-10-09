@@ -1,0 +1,23 @@
+meta {
+  name: DeleteSavedPlace
+  type: http
+  seq: 3
+}
+
+delete {
+  url: https://api.airtable.com/v0/{{BASE_ID}}/{{TABLE_NAME}}/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: recknGHsNHR65Jzo1
+}
+
+headers {
+  Authorization: Bearer {{AIRTABLE_API_KEY}}
+}
+
+settings {
+  encodeUrl: true
+}

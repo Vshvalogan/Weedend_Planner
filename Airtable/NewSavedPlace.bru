@@ -1,0 +1,29 @@
+meta {
+  name: NewSavedPlace
+  type: http
+  seq: 2
+}
+
+post {
+  url: https://api.airtable.com/v0/{{BASE_ID}}/{{TABLE_NAME}}
+  body: json
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer {{AIRTABLE_API_KEY}}
+}
+
+body:json {
+  {
+    "fields": {
+      "Place": "Garden",
+      "Notes": "I want to go",
+      "Budget": 20
+    }
+  }
+}
+
+settings {
+  encodeUrl: true
+}
