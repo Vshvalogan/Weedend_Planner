@@ -1,40 +1,71 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { createSavedPlace } from "../services/SavedPlacesService";
 
-export default function PlaceDetailsPage({ places }) {
+export default function PlaceDetailsPage({ places = [] }) {
   const { id } = useParams();
+  const navigate = useNavigate();
+
   const [place, setPlace] = useState(null);
-  const handleClick = () => {
+  const [notes, setNotes] = useState("");
+  const [budget, setBudget] = useState("");
 
-  }
-
+  // find the place when page loads
   useEffect(() => {
-    const found = places.find((p) => String(p.place_id) === String(id));
-    setPlace(found || null);
+    const selected = places.find((p) => String(p.place_id) === String(id));
+    setPlace(selected || null);
   }, [id, places]);
 
+  // handle save button
+  const handleSave = async (e) => {
+    e.preventDefault();
+    if (!place) return alert("No place found!");
+
+    try {
+      await createSavedPlace({
+        Place: place.title,
+        Notes: notes,
+        Budget: Number(budget || 0),
+        Image: place.thumbnail || place.serpapi_thumbnail || "",
+        Rating: place.rating || "",
+        Address: place.address || "",
+      });
+      // alert("Place saved!");
+      navigate("/places");
+    } catch (error) {
+      console.error(error);
+      alert("Error saving place. Try again!");
+    }
+  };
+
+  // if not found
   if (!place) {
     return (
       <div className="details-page page">
         <div className="panel">
-          <Link to="/places"><button>Back</button></Link>
-          <p>Place not found. Try searching again.</p>
+          <Link to="/places">
+            <button>Back</button>
+          </Link>
+          <p>Place not found.</p>
         </div>
       </div>
     );
   }
 
-  const img = place.thumbnail || place.serpapi_thumbnail;
+  const image = place.thumbnail || place.serpapi_thumbnail;
 
   return (
     <div className="details-page page">
       <div className="panel">
-        <Link to="/places"><button>Back</button></Link>
+        <Link to="/places">
+          <button>Back</button>
+        </Link>
+
         <h3>{place.title}</h3>
 
-        {img && (
+        {image && (
           <img
-            src={img}
+            src={image}
             alt={place.title}
             style={{ width: "200px", height: "200px", objectFit: "cover" }}
           />
@@ -44,17 +75,25 @@ export default function PlaceDetailsPage({ places }) {
         <p><strong>Description:</strong> {place.description || "No description available."}</p>
         <p><strong>Rating:</strong> {place.rating || "N/A"}</p>
         <p><strong>Reviews:</strong> {place.reviews || "N/A"}</p>
-        <p> </p>
-        <form className="saveform" onSubmit={handleClick}>
-          <h2>Save this Place</h2>
+
+        <form onSubmit={handleSave}>
+          <h4>Save this Place</h4>
           <p>Notes:</p>
-          <textarea name="notes" rows="4" cols="50" placeholder="Add your notes here..."></textarea> {/*https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/textarea */}
+          <textarea
+            rows="3"
+            placeholder="Add your notes here"
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+          />
           <p>Budget:</p>
-          <input type="number" name="budget" placeholder="Enter your budget" />
+          <input
+            type="number"
+            placeholder="Enter your budget"
+            value={budget}
+            onChange={(e) => setBudget(e.target.value)}
+          />
           <p></p>
-          <Link to="/places">
           <button type="submit">Save Place</button>
-          </Link>
         </form>
       </div>
     </div>
