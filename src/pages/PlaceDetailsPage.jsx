@@ -10,13 +10,11 @@ export default function PlaceDetailsPage({ places = [] }) {
   const [notes, setNotes] = useState("");
   const [budget, setBudget] = useState("");
 
-  // find the place when page loads
   useEffect(() => {
     const selected = places.find((p) => String(p.place_id) === String(id));
     setPlace(selected || null);
   }, [id, places]);
 
-  // handle save button
   const handleSave = async (e) => {
     e.preventDefault();
     if (!place) return alert("No place found!");
@@ -38,7 +36,7 @@ export default function PlaceDetailsPage({ places = [] }) {
     }
   };
 
-  // if not found
+ 
   if (!place) {
     return (
       <div className="details-page page">
@@ -76,8 +74,8 @@ export default function PlaceDetailsPage({ places = [] }) {
         <p><strong>Rating:</strong> {place.rating || "N/A"}</p>
         <p><strong>Reviews:</strong> {place.reviews || "N/A"}</p>
 
-        <form onSubmit={handleSave}>
-          <h4>Save this Place</h4>
+        <form onSubmit={handleSave} className="saveform">
+          <h2>Save this Place</h2>
           <p>Notes:</p>
           <textarea
             rows="3"

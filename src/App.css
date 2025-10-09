@@ -105,11 +105,12 @@ body {
 
 /* Save Form */
 .saveform {
-  background-color: #e0e0e0;
-  border: 1px solid gray;
-  padding: 10px;
-  width: 250px;
-  margin-top: 15px;
+  background-color: #e8e8e8;  /* light grey box */
+  border: 2px solid #444;     /* clear border to differentiate */
+  border-radius: 5px;         /* slightly rounded corners */
+  padding: 15px;
+  width: 300px;
+  margin-top: 20px;
 }
 
 .saveform h2 {
@@ -121,13 +122,13 @@ body {
 .saveform input {
   width: 100%;
   margin-top: 5px;
-  padding: 4px;
+  padding: 5px;
   border: 1px solid gray;
 }
 
 .saveform button {
   margin-top: 10px;
-  padding: 5px;
+  padding: 6px 10px;
   background-color: blue;
   color: white;
   border: none;
