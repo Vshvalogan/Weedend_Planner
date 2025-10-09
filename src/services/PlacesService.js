@@ -23,3 +23,4 @@ export async function index(keyword, city) {
     console.error("Fetch failed:", error);
   }
 }
+
