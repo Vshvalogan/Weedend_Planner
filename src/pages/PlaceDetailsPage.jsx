@@ -1,6 +1,7 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { createSavedPlace } from "../services/SavedPlacesService";
+import { fetchSavedPlaces } from "../services/SavedPlacesService";
 
 export default function PlaceDetailsPage({ places = [] }) {
   const { id } = useParams();
@@ -20,6 +21,21 @@ export default function PlaceDetailsPage({ places = [] }) {
     if (!place) return alert("No place found!");
 
     try {
+      const savedPlaces = await fetchSavedPlaces();
+      let alreadySaved = false;
+      for (let i = 0; i < savedPlaces.length; i++) {
+        const item = savedPlaces[i];
+        if (item.fields.Place === place.title) {
+          alreadySaved = true;
+          break;
+      }
+    }
+
+    if (alreadySaved) {
+      alert("This place is already saved!");
+      navigate("/places")
+      return;
+    }
       await createSavedPlace({
         Place: place.title,
         Notes: notes,

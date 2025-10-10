@@ -1,37 +1,27 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { fetchSavedPlaces, deleteSavedPlace } from "../services/SavedPlacesService";
+import SavedPlacesList from "../components/saved_places_list";
 
 export default function SavePlacesPage() {
-  const [rows, setRows] = useState([]);
+  const [savedPlaces, setSavedPlaces] = useState([]);
 
   useEffect(() => {
-    async function loadData() {
-      const data = await fetchSavedPlaces();
-      setRows(data || []);
+    async function load() {
+      const rows = await fetchSavedPlaces();
+      setSavedPlaces(rows || []);
     }
-    loadData();
+    load();
   }, []);
 
-  const handleDelete = async (id) => {
+  async function handleDelete(id) {
     await deleteSavedPlace(id);
-    setRows(rows.filter((r) => r.id !== id));
-  };
+    setSavedPlaces(prev => prev.filter(r => r.id !== id));
+  }
 
   return (
     <div className="saved-page">
       <h3>Saved Places</h3>
-      {rows.map((r) => (
-        <div key={r.id} className="saved-card">
-          <p>Place: {r.fields.Place}</p> 
-          <img src ={r.fields.Image} alt={r.fields.Place} style={{ width: "100px", height: "100px", objectFit: "cover" }} />
-          <p>Rating: {r.fields.Rating}</p>
-          <p>Address: {r.fields.Address}</p>
-          <p>Notes: {r.fields.Notes}</p>
-          <p>Budget: {r.fields.Budget}</p>
-          <button onClick={() => handleDelete(r.id)}>Delete</button>
-        </div>
-      ))}
+      <SavedPlacesList savedPlaces={savedPlaces} deletePlace={handleDelete} />
     </div>
   );
 }

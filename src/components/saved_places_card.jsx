@@ -1,19 +1,25 @@
-import { Link } from "react-router-dom";
-
-export default function PlacesCard({ place }) {
+export default function SavedPlacesCard({ place, deletePlace }) {
+  const f = place.fields || {};
   return (
-    <div className="place-card">
-      {place.thumbnail && (
+    
+    <div className="saved-card">
+      
+      <p><strong>Place:</strong> {f.Place}</p>
+
+      {f.Image && (
         <img
-          src={place.thumbnail}
-          alt={place.title}
-          style={{ width: "100px", height: "100px", objectFit: "cover" }}
+          src={f.Image}
+          alt={f.Place}
+          style={{ width: 100, height: 100, objectFit: "cover" }}
         />
       )}
-      <p>{place.title}</p>
-      <Link to={`/places/${place.place_id}`}>
-        <button>Details</button>
-      </Link>
+
+      <p>Rating: {f.Rating ?? "N/A"}</p>
+      <p>Address: {f.Address || "N/A"}</p>
+      <p>Notes: {f.Notes || "-"}</p>
+      <p>Budget: {f.Budget ?? "-"}</p>
+
+      <button onClick={() => deletePlace(place.id)}>Delete</button>
     </div>
   );
 }

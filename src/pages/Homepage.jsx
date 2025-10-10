@@ -69,7 +69,6 @@ export default function Homepage({ setPlaces, setMapImage }) {
 
         {error && <p style={{ color: "red", marginTop: "10px" }}>{error}</p>}
 
-        {/* Nested routes (Places Page) render here */}
         <Outlet />
       </div>
     </div>
