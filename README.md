@@ -4,10 +4,10 @@ i) Home Page
 ![HomePage](Images/Homepage.png)
 
 ii) Places Page 
-![Places Page](Images/Placedetailspage.png)
+![Place Details Page](Images/Placespage.png)
 
 iii) Place Details Page
-![Place Details Page](Images/Placespage.png)
+![Places Page](Images/Placedetailspage.png)
 
 iv) Saved Places page
 ![Saved Places Page](Images/Savedplacespage.png)
