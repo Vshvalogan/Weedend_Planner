@@ -1,16 +1,26 @@
-# React + Vite
+Weekend Plan Wizard
+READ: Browse/search/filter places from Local Results APIREAD: View individual place details
+* As a  user I should see a list of popular places on the home page so that I can discover new spots for the weekend.
+* As a  user I should be able to search for places by city/keyword so that I can quickly find what I’m looking for.
+* As a  user I should be able to filter results by category (e.g., Café, Museum, Restaurant)
+* As a  user I should be able to click on a place and view its details (title, address,  description)wee so that I can learn more about the specific place.
+ Airtable:
+* As a user, I should be able to add a place to my personal saved places list (CREATE) so that I can save it for later.
+* As a user, I should be able to remove a place from my saved places list (DELETE).
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Application Structure
+Pages
+1. Home Page (/)
+2. Places Page (/places)
+3. Place Details Page (/places/:id)
+4. Saved Places Page (/places/savedplaces)
+Components
+* NavBar
+* PlaceCard
+* PlaceList
+* SavedPlacesCard
+* SavedPlacesList
+Service
+* placeService.js
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+g
